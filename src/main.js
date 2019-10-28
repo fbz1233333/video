@@ -14,28 +14,36 @@ Vue.use(Vuex,axios,vueaxios)
 Vue.prototype.$video = Video
 
 Vue.config.productionTip = false
-const store=new Vuex.Store({
-  state:{
-    videoList:[]
+
+const moduleVideo= {
+  state: {
+    videoList: []
   },
-  getters:{
-    getVideos:state=>{
+  getters: {
+    getVideos: state => {
       return state.videoList;
     }
   },
-  mutations:{
-    setVideoList(state,data){
-      state.videoList=data;
+  mutations: {
+    setVideoList (state, data) {
+      state.videoList = data;
     }
   },
-  actions:{
-    getVideoList(context){
+  actions: {
+    getVideoList (context) {
       //axios的之前还不能有一个this,很烦
-        axios.get('http://localhost:7110/api/videos').then(response=>{
-          console.log(response.data)
-          context.commit('setVideoList',response.data)
-        })
+      //这个可以设置代理的形式
+      axios.get('/info/api/videos').then(response => {
+        console.log(response.data)
+        context.commit('setVideoList', response.data)
+      })
     }
+  }
+}
+
+const store=new Vuex.Store({
+  modules: {
+    moduleVideo
   }
 })
 
